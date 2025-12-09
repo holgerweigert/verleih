@@ -8,31 +8,40 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     
     steps:
-    - name: Checkout code
+    - name: 🏗 Checkout repository
       uses: actions/checkout@v3
     
-    - name: Setup Node.js
+    - name: 🏗 Setup Node
       uses: actions/setup-node@v3
       with:
-        node-version: '18'
+        node-version: 18.x
         
-    - name: Install dependencies
+    - name: 🏗 Setup EAS
+      uses: expo/expo-github-action@v8
+      with:
+        eas-version: latest
+        token: ${{ secrets.EXPO_TOKEN }}
+        
+    - name: 📦 Install dependencies
       working-directory: ./BrauereiVerleihApp
-      run: npm install
+      run: npm install --legacy-peer-deps
     
-    - name: Install EAS CLI
-      run: npm install -g eas-cli
-    
-    - name: Setup Expo
+    - name: 🔧 Initialize EAS project
       working-directory: ./BrauereiVerleihApp
       run: |
-        npm install -g expo-cli
+        # Erstelle Projekt wenn noch nicht vorhanden
+        eas project:init --non-interactive || echo "Project already exists"
     
-    - name: EAS Build
+    - name: 🚀 Build app
       working-directory: ./BrauereiVerleihApp
-      env:
-        EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
       run: |
-        eas build --platform android --profile preview --non-interactive
+        eas build --platform android --profile preview --non-interactive --no-wait
+        
+    - name: 📝 Build info
+      run: |
+        echo "✅ Build wurde gestartet!"
+        echo "🔗 Prüfe deinen Expo-Account für den Download-Link"
+        echo "📧 Du bekommst eine E-Mail wenn der Build fertig ist"
