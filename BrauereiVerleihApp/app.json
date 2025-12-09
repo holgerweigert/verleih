@@ -1,0 +1,35 @@
+{
+  "expo": {
+    "name": "Brauerei Kirschenholz Verleih",
+    "slug": "brauerei-verleih-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#8B4513"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.kirschenholz.verleih"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#8B4513"
+      },
+      "package": "com.kirschenholz.verleih",
+      "permissions": [
+        "INTERNET"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
+  }
+}
