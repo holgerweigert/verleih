@@ -1,9 +1,9 @@
 name: Build Android APK
 
 on:
-  push:
-    branches: [ main, master ]
   workflow_dispatch:
+  push:
+    branches: [ main ]
 
 jobs:
   build:
@@ -19,19 +19,20 @@ jobs:
         node-version: '18'
         
     - name: Install dependencies
+      working-directory: ./BrauereiVerleihApp
       run: npm install
     
-    - name: Setup Expo
-      uses: expo/expo-github-action@v8
-      with:
-        expo-version: latest
-        token: ${{ secrets.EXPO_TOKEN }}
+    - name: Install EAS CLI
+      run: npm install -g eas-cli
     
-    - name: Build APK
-      run: eas build --platform android --profile preview --non-interactive
-      
-    - name: Upload APK
-      uses: actions/upload-artifact@v3
-      with:
-        name: app-release
-        path: '*.apk'
+    - name: Setup Expo
+      working-directory: ./BrauereiVerleihApp
+      run: |
+        npm install -g expo-cli
+    
+    - name: EAS Build
+      working-directory: ./BrauereiVerleihApp
+      env:
+        EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+      run: |
+        eas build --platform android --profile preview --non-interactive
